@@ -1,8 +1,7 @@
-const fs = require('fs');
 const crypto = require('crypto');
 const TextToSpeechV1 = require('ibm-watson/text-to-speech/v1');
 const { IamAuthenticator } = require('ibm-watson/auth');
-const config = require('../../config');
+const { uploadFile, fileExists } = require('../../services/s3');
 
 
 const tts = new TextToSpeechV1({
@@ -13,19 +12,15 @@ const tts = new TextToSpeechV1({
 });
 
 
-const checkAudioFileExists = filePath => new Promise((res, rej) => {
+const checkAudioFileExists = fileName => {
 
   console.log('searching for the audio file..')
-  if (fs.existsSync(filePath)) {
-    console.log('audio file exists.');
-    res({ fileExists: true });
-  }
-  else {
-    console.log('audio file does not exist.');
-    res({ fileExists: false });
-  }
 
-});
+  return fileExists(fileName)
+
+    .then(fileExists => ({ fileExists }));
+
+};
 
 
 const geSpeechFromText = ({ params, dirPath, fileName}) => {
@@ -38,7 +33,8 @@ const geSpeechFromText = ({ params, dirPath, fileName}) => {
     })
     .then(buffer => {
       console.log('writing file..');
-      fs.writeFileSync(dirPath + fileName, buffer);
+      // fs.writeFileSync(dirPath + fileName, buffer);
+      uploadFile(buffer, fileName);
       Promise.resolve(true);
     })
 }
@@ -57,11 +53,11 @@ const textToSpeech = (req, res, next) => {
   const fileName = textHash + '.wav';
   const dirPath = 'public/audio/';
   const filePath = dirPath + fileName;
-  const baseUrl = 'http://192.168.1.97:3000/audio/';
+  const baseUrl = 'https://nfla.s3-eu-west-1.amazonaws.com/';
   
 
   // check if there is already a voice with the same text
-  return checkAudioFileExists(filePath)
+  return checkAudioFileExists(fileName)
 
   // if file exists: send the url, else: continue to ibm-watson
     .then(({ fileExists }) => {

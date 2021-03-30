@@ -11,6 +11,7 @@
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {
+    "aws-sdk": "^2.876.0",
     "cookie-parser": "~1.4.3",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
