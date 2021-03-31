@@ -24,14 +24,17 @@ const proccessResponse = async ({ result }) => {
 }
 
 const assistant = async (req, res, next) => {
-  const { text } = req.body;
+  const { inputText } = req.body;
 
-  console.log({ text });
+  console.log({ inputText });
   console.log('getting response message from ibm assistant..');
 
   ibmAssistant.messageStateless({
     assistantId: 'aac005c7-ef62-4a12-ba53-f323d153d1c4',
-    input: { 'message_type': 'text', text }
+    input: {
+      'message_type': 'text',
+      text: inputText
+    }
   })
 
     .then(proccessResponse)
