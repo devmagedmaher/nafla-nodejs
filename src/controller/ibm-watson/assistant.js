@@ -4,9 +4,9 @@ const { IamAuthenticator } = require('ibm-watson/auth');
 const ibmAssistant = new AssistantV2({
   version: '2020-04-01',
   authenticator: new IamAuthenticator({
-    apikey: '60mzzH3G6jx14N9AR1W6IZghkoDNTkNwuwG1QQyfbnYk',
+    apikey: '2nsrLIeq69MDb2D91iWPjAm_ABhnZO-gYMVFnOnfNi9e',
   }),
-  serviceUrl: 'https://api.eu-gb.assistant.watson.cloud.ibm.com/instances/6c5d9a7d-f151-4b8b-ab02-5f68ce4b9add',
+  serviceUrl: 'https://api.eu-de.assistant.watson.cloud.ibm.com/instances/a689a3cd-3735-415d-bacb-3732717d2eed',
 });
 
 
@@ -30,7 +30,7 @@ const assistant = async (req, res, next) => {
   console.log('getting response message from ibm assistant..');
 
   ibmAssistant.messageStateless({
-    assistantId: 'aac005c7-ef62-4a12-ba53-f323d153d1c4',
+    assistantId: '5e9adecf-4700-4133-a84d-d5d8dfb2ca1c',
     input: {
       'message_type': 'text',
       text: inputText
