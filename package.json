@@ -13,14 +13,17 @@
   "dependencies": {
     "aws-sdk": "^2.876.0",
     "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "~4.16.0",
+    "express-validator": "^6.10.0",
     "fs": "0.0.1-security",
     "googleapis": "^39.2.0",
     "helmet": "^3.21.1",
     "http-errors": "~1.6.2",
     "ibm-watson": "^6.0.3",
+    "jsonapi-serializer": "^3.6.7",
     "morgan": "~1.9.0",
     "tough-cookie": "^4.0.0"
   },
