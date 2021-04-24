@@ -3,13 +3,12 @@ const AssistantV2 = require('ibm-watson/assistant/v2');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
 
-const version = process.env.WATSON_ASSISTANT_VERSION;
 const apikey = process.env.WATSON_ASSISTANT_API_KEY;
 const serviceUrl = process.env.WATSON_ASSISTANT_SERVICE_URL;
 
 
 const config = {
-  version,
+  version: '2020-04-01',
   authenticator: new IamAuthenticator({
     apikey,
   }),

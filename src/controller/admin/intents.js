@@ -1,42 +1,155 @@
-const { query } = require('express-validator');
-const IntentModel = require('../../model/intents');
-const checkValidator = require('../../middleware/check-validator');
+const IntentModel = require('../../models/intents');
+const { jsonSchema } = require('../../middleware/jsonSchema');
 
 
+const intent = new IntentModel();
+
+
+/**
+ * GET LIST of Dialog Nodes
+ * 
+ */
 module.exports.getList = [
 
-  /**
-   * Validating
-   * 
-   */
-  [
-    query('sort').isIn(['updated', '-updated', 'intent', '-intent']),
-    query('page.number').isInt({ min: 1 }),
-    query('page.size').isInt({ min: 1 }),
-  ],
+  jsonSchema('query', {
+    properties: {
+      filter: { type: 'object' },
+      range: {
+        type: 'array',
+        minItems: 2,
+        maxItems: 2,
+        items: {
+          type: 'number',
+          minimum: 0,
+        },
+      },
+      sort: {
+        type: 'array',
+        minItems: 2,
+        maxItems: 2,
+        items: [
+          {
+            type: 'string',
+            enum: ['updated'],
+          },
+        ],
+      },
+      filter: {
+        type: 'object',
+      },
+    },
+  }),
 
-  /**
-   * check if there is validation errors
-   */
-   checkValidator,
-
-  /**
-   * Handler
-   * 
-   */
   async (req, res, next) => {  
     try {
-      const { page, sort } = req.query;
+      const { result, headers } = await intent.getList(req.query);
 
-      const intent = new IntentModel();
-      const data = await intent.getList({ page, sort });
+      if (headers) {
+        res.header('Content-Range', headers['Content-Range']);
+      }
 
-      res.send(data);
-      
+      res.send(result);
     }
     catch (error) {
       next(error)
     }
   }
 
-]
+];
+
+
+/**
+ * GET ONE Dialog Node
+ */
+module.exports.getOne = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const { result } = await intent.getOne(id);
+
+    res.send(result);
+  }
+  catch (error) {
+    next(error);
+  }
+}
+
+
+/**
+ * CREATE Dialog Node
+ */
+module.exports.create = [
+
+   jsonSchema('body', {
+    properties: {
+      intent: { type: 'string' },
+      description: { type: 'string' },
+    },
+    required: ['intent'],
+  }),
+
+  async (req, res, next) => {
+    try {
+      const { result } = await intent.create(req.body);
+
+      res.send(result);      
+    }
+    catch (error) {
+      next(error)
+    }
+  }
+
+];
+
+
+/**
+ * UPDATE Dialog Node
+ * 
+ */
+module.exports.update = [
+
+  jsonSchema('body', {
+    properties: {
+      intent: { type: 'string' },
+      description: { type: 'string' },
+      examples: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            text: { type: 'string' },
+          },
+        },
+      },
+    },
+  }),
+
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      const { result } = await intent.update(req.body, id);
+
+      res.send(result);
+    }
+    catch (error) {
+      next(error);
+    }
+  }
+
+];
+
+
+
+module.exports.delete = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const { result } = await intent.delete(id);
+
+    res.send(result);
+  }
+  catch (error) {
+    next(error);
+  }
+}

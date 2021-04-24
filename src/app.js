@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
+const queryParser = require('./middleware/queryParser');
 
 require('dotenv').config();
 
@@ -17,7 +18,8 @@ app.use(cors())
 app.use(helmet()); // https://expressjs.com/en/advanced/best-practice-security.html#use-helmet
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(queryParser());
 app.use(cookieParser());
 
 app.use('/api', apiRouter);
