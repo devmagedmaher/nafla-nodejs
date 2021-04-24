@@ -24,7 +24,8 @@ app.use(cookieParser());
 
 app.use('/api', apiRouter);
 
-app.use(express.static('public'));
+// serve static public folder
+app.use('/', express.static('public'));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
