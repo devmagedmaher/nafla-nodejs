@@ -1,4 +1,4 @@
-
+const generateToken = require('../../utils/generate-token');
 
 
 module.exports.auth = (req, res, next) => {
@@ -8,9 +8,8 @@ module.exports.auth = (req, res, next) => {
     username === process.env.ADMIN_USERNAME &&
     password === process.env.ADMIN_PASSWORD
   ) {
-    res.status(200).send({
-      token: `${username}|||${password}`,
-    });
+    const token = generateToken(username, password);
+    res.status(200).send({ token });
   }
   else {
     res.status(401).send({ message: 'Invalid username or password'});

@@ -1,3 +1,4 @@
+const generateToken = require('../utils/generate-token');
 
 
 module.exports = () => {
@@ -7,11 +8,10 @@ module.exports = () => {
     console.log({ auth });
 
     if (auth) {
-      const [username, password] = auth.replace('Bearer ', '').split('|||');
-      if (
-        username === process.env.ADMIN_USERNAME &&
-        password === process.env.ADMIN_PASSWORD
-      ) {
+      const token = auth.replace('Bearer ', '');
+      const username = process.env.ADMIN_USERNAME;
+      const password = process.env.ADMIN_PASSWORD;
+      if (token === generateToken(username, password)) {
         next();
         return;
       }
