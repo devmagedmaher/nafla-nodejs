@@ -30,7 +30,7 @@ module.exports.getList = [
         items: [
           {
             type: 'string',
-            enum: ['updated', 'intent'],
+            enum: ['id', 'updated', 'intent'],
           },
         ],
       },

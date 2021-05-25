@@ -28,7 +28,6 @@ class IBMAssistantModel {
   async __getListResource({ filter, range, sort}) {
     const methodName = this.__toCamelCase(`list ${this.name}s`);
     const responseContentKeyName = this.__getResponseKeyName();
-    console.log(responseContentKeyName);
     let data = {};
 
     // get data from ibm
@@ -123,7 +122,6 @@ class IBMAssistantModel {
     const methodName = this.__toCamelCase(`delete ${this.name}`);
     const idKeyName = this.__toCamelCase(this.name);
 
-    console.log({ methodName, idKeyName });
     return assistantV1[methodName]({
       ...this.defaultParams,
       [idKeyName]: id,      
@@ -165,10 +163,6 @@ class IBMAssistantModel {
   }
 
 
-  /**
-   * change sort to appropriate format for iBM Assistant
-   * 
-   */
 
 
 
@@ -190,11 +184,17 @@ class IBMAssistantModel {
 
 
   __toCamelCase(str) {
-    console.log('to camel:', str);
     return str
       .split(' ')
       .map((word, i) => i > 0 ? this.__firstToUpperCase(word) : word)
       .join('');
+  }
+
+  __toUnderscoreCase(str) {
+    return str
+      .toLowerCase()
+      .split(' ')
+      .join('_');
   }
   
   __firstToUpperCase(str) {
@@ -206,7 +206,21 @@ class IBMAssistantModel {
   }
 
   __getParsedSort(sort) {
-    return sort ? (sort[1] == 'DESC' ? '-'  : '') + sort[0] : undefined;
+    const sortKeyName = this.__toUnderscoreCase(this.name);
+
+    if (sort) {
+      if (sort[0] === 'id') sort[0] = sortKeyName;
+      
+      if (sort[1] === 'DESC') {
+        console.log({sort});
+        return '-' + sort[0];
+      }
+      console.log({sort});
+      return sort[0];
+    }
+    
+    console.log({sort});
+    return undefined;
   }
 }
 

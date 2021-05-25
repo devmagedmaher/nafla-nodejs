@@ -1,4 +1,4 @@
-var Validator = require('jsonschema').Validator;
+const { Validator } = require('jsonschema');
 
 
 module.exports.jsonSchema = (key, schema, opts = {}) => {
