@@ -1,6 +1,7 @@
 const express = require('express');
 const users = require('../controller/admin/users');
 const dialogNodes = require('../controller/admin/dialog-nodes');
+const workspaces = require('../controller/admin/workspaces');
 const intents = require('../controller/admin/intents');
 const auth = require('../middleware/auth');
 
@@ -17,6 +18,15 @@ adminRouter.get('/', (req, res, next) => {
  * 
  */
 adminRouter.post('/auth', users.auth);
+
+
+/**
+ * Workspace resource
+ * 
+ */
+const workspaceRouter = express.Router();
+  workspaceRouter.get('/', workspaces.getList);
+adminRouter.use('/workspaces', workspaceRouter);
 
 
 /**
