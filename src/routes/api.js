@@ -1,6 +1,6 @@
 const express = require('express');
-const ibmWatsonRouter = require('./ibm-watson');
-const assistantAdminRouter = require('./assistant-admin');
+const AppRouter = require('./mobile');
+const AdminRouter = require('./admin');
 const allowHeaders = require('../middleware/allow-headers');
 
 const router = express.Router();
@@ -11,12 +11,12 @@ router.get('/', (req, res, next) => {
 });
 
 
-// ibm watson api routes
-router.use('/ibm-watson', ibmWatsonRouter);
+// ibm watson App api routes
+router.use('/mobile', AppRouter);
 
 
-// ibm watson assistant admin api routes
-router.use('/admin', allowHeaders, assistantAdminRouter);
+// ibm watson Admin api routes
+router.use('/admin', allowHeaders, AdminRouter);
 
 
 module.exports = router;

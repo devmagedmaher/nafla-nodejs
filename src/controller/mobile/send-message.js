@@ -1,4 +1,5 @@
 const { assistantV2 } = require('../../services/ibm-watson');
+const { assistantV1 } = require('../../services/ibm-watson');
 
 
 const proccessResponse = async ({ result }) => {
@@ -14,16 +15,17 @@ const proccessResponse = async ({ result }) => {
   }
 }
 
-const assistant = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   const { inputText } = req.body;
 
   console.log({ inputText });
   console.log('getting response message from ibm assistant..');
 
-  assistantV2.messageStateless({
-    assistantId: process.env.WATSON_ASSISTANT_ID,
-    input: {
-      'message_type': 'text',
+  assistantV1.message({
+    // workspaceId: process.env.WATSON_ASSISTANT_SKILL_ID,
+    workspaceId: '1568ff62-a9bf-4da2-a8a2-bd0bc442353f',
+    // workspaceId: 'b90775b4-8294-40d7-9782-41f0cc69b089',
+    MessageInput: {
       text: inputText
     }
   })
@@ -42,6 +44,3 @@ const assistant = async (req, res, next) => {
     })
 
 }
-
-
-module.exports = assistant;
