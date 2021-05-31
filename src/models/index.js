@@ -9,11 +9,11 @@ class IBMAssistantModel {
    * Constructor
    * 
    */
-  constructor(name, defaultParams) {
+  constructor({name, workspaceId, defaultParams}) {
     this.name = name;
 
     this.defaultParams = {
-      workspaceId: process.env.WATSON_ASSISTANT_SKILL_ID,
+      workspaceId,
       includeAudit: true,
       includeCount: true,
       ...defaultParams,

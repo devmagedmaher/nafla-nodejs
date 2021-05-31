@@ -8,8 +8,11 @@ class IntentModel extends IBMAssistantModel {
    * 
    */
   constructor() {
-    super('workspace', {
-      _export: true,
+    super({
+      name: 'workspace',
+      defaultParams: {
+        _export: true,
+      },
     });
   }
 
@@ -107,9 +110,9 @@ class IntentModel extends IBMAssistantModel {
    * 
    */
   _mapAttributes(data) {
-    return this._arrObjMapper(data, node => {
-      node.id = node.intent;
-      return node;
+    return this._arrObjMapper(data, workspace => {
+      workspace.id = workspace.workspace_id;
+      return workspace;
     });
   }
 

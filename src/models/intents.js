@@ -7,9 +7,13 @@ class IntentModel extends IBMAssistantModel {
    * constructor
    * 
    */
-  constructor() {
-    super('intent', {
-      _export: true,
+  constructor(workspaceId) {
+    super({
+      name: 'intent',
+      workspaceId,
+      defaultParams: {
+        _export: true,
+      },
     });
   }
 

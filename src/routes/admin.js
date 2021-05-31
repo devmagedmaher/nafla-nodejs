@@ -4,6 +4,7 @@ const dialogNodes = require('../controller/admin/dialog-nodes');
 const workspaces = require('../controller/admin/workspaces');
 const intents = require('../controller/admin/intents');
 const auth = require('../middleware/auth');
+const workspaceExtractor = require('../middleware/workspace-extractor');
 
 
 const adminRouter = express.Router();
@@ -26,7 +27,7 @@ adminRouter.post('/auth', users.auth);
  */
 const workspaceRouter = express.Router();
   workspaceRouter.get('/', workspaces.getList);
-adminRouter.use('/workspaces', workspaceRouter);
+adminRouter.use('/workspaces', auth(), workspaceRouter);
 
 
 /**
@@ -39,7 +40,7 @@ const dialogNodeRouter = express.Router();
   dialogNodeRouter.post('/', dialogNodes.create);
   dialogNodeRouter.put('/:id', dialogNodes.update);
   dialogNodeRouter.delete('/:id', dialogNodes.delete);
-adminRouter.use('/dialog-nodes', auth(), dialogNodeRouter);
+adminRouter.use('/dialog-nodes', auth(), workspaceExtractor(), dialogNodeRouter);
 
 
 /**
@@ -52,7 +53,7 @@ const intentRouter = express.Router();
   intentRouter.post('/', intents.create);
   intentRouter.put('/:id', intents.update);
   intentRouter.delete('/:id', intents.delete);
-adminRouter.use('/intents', auth(), intentRouter);
+adminRouter.use('/intents', auth(), workspaceExtractor(), intentRouter);
 
 
 module.exports = adminRouter;

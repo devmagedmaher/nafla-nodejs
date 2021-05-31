@@ -46,6 +46,10 @@ module.exports.getList = [
 
   async (req, res, next) => {  
     try {
+      const { workspaceId } = res.locals;
+  
+      const dialogNode = new DialogNodeModel(workspaceId);
+
       const { result, headers } = await dialogNode.getList(req.query);
 
       if (headers) {
@@ -68,6 +72,10 @@ module.exports.getList = [
 module.exports.getOne = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const { workspaceId } = res.locals;
+  
+    const dialogNode = new DialogNodeModel(workspaceId);
 
     const { result } = await dialogNode.getOne(id);
 
@@ -95,6 +103,10 @@ module.exports.create = [
 
   async (req, res, next) => {
     try {
+      const { workspaceId } = res.locals;
+  
+      const dialogNode = new DialogNodeModel(workspaceId);
+
       const { result } = await dialogNode.create(req.body);
 
       res.send(result);      
@@ -149,6 +161,10 @@ module.exports.update = [
     try {
       const { id } = req.params;
 
+      const { workspaceId } = res.locals;
+  
+      const dialogNode = new DialogNodeModel(workspaceId);
+
       const { result } = await dialogNode.update(req.body, id);
 
       res.send(result);
@@ -165,6 +181,10 @@ module.exports.update = [
 module.exports.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const { workspaceId } = res.locals;
+  
+    const dialogNode = new DialogNodeModel(workspaceId);
 
     const { result } = await dialogNode.delete(id);
 

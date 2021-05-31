@@ -2,9 +2,6 @@ const IntentModel = require('../../models/intents');
 const { jsonSchema } = require('../../middleware/jsonSchema');
 
 
-const intent = new IntentModel();
-
-
 /**
  * GET LIST of Dialog Nodes
  * 
@@ -42,6 +39,10 @@ module.exports.getList = [
 
   async (req, res, next) => {  
     try {
+      const { workspaceId } = res.locals;
+
+      const intent = new IntentModel(workspaceId);
+
       const { result, headers } = await intent.getList(req.query);
 
       if (headers) {
@@ -63,6 +64,10 @@ module.exports.getList = [
  */
 module.exports.getOne = async (req, res, next) => {
   try {
+    const { workspaceId } = res.locals;
+
+    const intent = new IntentModel(workspaceId);
+
     const { id } = req.params;
 
     const { result } = await intent.getOne(id);
@@ -90,6 +95,10 @@ module.exports.create = [
 
   async (req, res, next) => {
     try {
+      const { workspaceId } = res.locals;
+
+      const intent = new IntentModel(workspaceId);
+  
       const { result } = await intent.create(req.body);
 
       res.send(result);      
@@ -127,6 +136,10 @@ module.exports.update = [
   async (req, res, next) => {
     try {
       const { id } = req.params;
+      
+      const { workspaceId } = res.locals;
+
+      const intent = new IntentModel(workspaceId);
 
       const { result } = await intent.update(req.body, id);
 
@@ -144,6 +157,10 @@ module.exports.update = [
 module.exports.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const { workspaceId } = res.locals;
+
+    const intent = new IntentModel(workspaceId);
 
     const { result } = await intent.delete(id);
 

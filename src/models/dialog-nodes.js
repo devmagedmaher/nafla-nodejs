@@ -8,8 +8,11 @@ class DialogNodeModel extends IBMAssistantModel {
    * constructor
    * 
    */
-  constructor() {
-    super('dialog node');
+  constructor(workspaceId) {
+    super({
+      name: 'dialog node',
+      workspaceId,
+    });
   }
 
 
