@@ -15,6 +15,8 @@ class IntentModel extends IBMAssistantModel {
         _export: true,
       },
     });
+    this.idKeyName = 'intent';
+    this.titleKeyName = 'intent';
   }
 
 

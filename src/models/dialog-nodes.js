@@ -13,6 +13,7 @@ class DialogNodeModel extends IBMAssistantModel {
       name: 'dialog node',
       workspaceId,
     });
+    this.idKeyName = 'dialogNode';
   }
 
 
@@ -89,7 +90,7 @@ class DialogNodeModel extends IBMAssistantModel {
     
     // remap output attribute
     if (!attributes.respond.values) {
-      attributes.result.values = [];
+      attributes.respond.values = [];
     }
     attributes.output = {
       generic: [

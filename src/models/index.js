@@ -66,11 +66,10 @@ class IBMAssistantModel {
    */
   _getOneResource(id) {
     const methodName = this.__toCamelCase(`get ${this.name}`);
-    const idKeyName = this.__toCamelCase(this.name);
 
     return assistantV1[methodName]({
       ...this.defaultParams,
-      [idKeyName]: id,
+      [this.idKeyName]: id,
     }).then(response => response.result);
   }
 
@@ -95,7 +94,6 @@ class IBMAssistantModel {
    */
   _updateResource(data, id) {
     const methodName = this.__toCamelCase(`update ${this.name}`);
-    const idKeyName = this.__toCamelCase(this.name);
 
     if (data.title) {
       data.dialogNode = slugify(data.title);
@@ -108,7 +106,7 @@ class IBMAssistantModel {
 
     return assistantV1[methodName]({
       ...this.defaultParams,
-      [idKeyName]: id,
+      [this.idKeyName]: id,
       ...data,
     }).then(response => response.result);
   }
@@ -120,11 +118,10 @@ class IBMAssistantModel {
    */
   _deleteResource(id) {
     const methodName = this.__toCamelCase(`delete ${this.name}`);
-    const idKeyName = this.__toCamelCase(this.name);
 
     return assistantV1[methodName]({
       ...this.defaultParams,
-      [idKeyName]: id,      
+      [this.idKeyName]: id,      
     }).then(response => response.result);
   }
 
@@ -140,6 +137,9 @@ class IBMAssistantModel {
         
         if (Array.isArray(filter[key])) {
           return filter[key].includes(element[eKey])
+        }
+        else if (key === 'q') {
+          return element[this.titleKeyName].toLowerCase().includes(filter.q.toLowerCase());
         }
         else {
           return filter[key] === element[eKey];
