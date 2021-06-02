@@ -27,6 +27,7 @@ adminRouter.post('/auth', users.auth);
  */
 const workspaceRouter = express.Router();
   workspaceRouter.get('/', workspaces.getList);
+  workspaceRouter.get('/:id', workspaces.getOne);
 adminRouter.use('/workspaces', auth(), workspaceRouter);
 
 

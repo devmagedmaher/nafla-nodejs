@@ -152,7 +152,7 @@ module.exports.update = [
             },
           },
         },
-        required: ['response_type', 'selection_policy'],
+        required: ['response_type'],
       },
     },
   }),

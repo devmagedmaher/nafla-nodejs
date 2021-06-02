@@ -14,6 +14,7 @@ class IntentModel extends IBMAssistantModel {
         _export: true,
       },
     });
+    this.idKeyName = 'workspaceId';
   }
 
 

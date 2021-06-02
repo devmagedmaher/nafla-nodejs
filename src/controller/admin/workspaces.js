@@ -56,3 +56,21 @@ const workspace = new WorkspaceModel();
   }
 
 ];
+
+
+
+/**
+ * GET ONE Workspace
+ */
+ module.exports.getOne = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const { result } = await workspace.getOne(id);
+
+    res.send(result);
+  }
+  catch (error) {
+    next(error);
+  }
+}

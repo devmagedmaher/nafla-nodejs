@@ -89,13 +89,8 @@ class DialogNodeModel extends IBMAssistantModel {
     }
     
     // remap output attribute
-    if (!attributes.respond.values) {
-      attributes.respond.values = [];
-    }
     attributes.output = {
-      generic: [
-        attributes.respond,
-      ],
+      generic: [ attributes.respond ],
     };
     
     data.result = await this._updateResource(attributes, id);
