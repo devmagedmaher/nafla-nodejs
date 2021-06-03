@@ -84,7 +84,7 @@ class DialogNodeModel extends IBMAssistantModel {
 
 
     // add # before conditions string (`#` representing `intent`);
-    if (attributes.conditions) {
+    if (attributes.condition_type === 'intent') {
       attributes.conditions = `#${attributes.conditions}`;
     }
     
@@ -124,10 +124,19 @@ class DialogNodeModel extends IBMAssistantModel {
   _mapAttributes(data) {
     return this._arrObjMapper(data, node => {
 
+      // insert condition_type field based on conditions field pattern
+      if (data.conditions && data.conditions.startsWith('#')) {
+        data.condition_type = 'intent';
+      }
+      else {
+        data.condition_type = 'common';
+      }
+
       // remove # from conditions
       if (data.conditions) {
         data.conditions = data.conditions.replace('#', '');
       }
+
       // remap output attribute
       if (node.output && node.output.generic) {
         node.respond = node.output.generic[0];
