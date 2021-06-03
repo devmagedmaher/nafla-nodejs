@@ -27,7 +27,7 @@ class IntentModel extends IBMAssistantModel {
 
 
     // change id field name
-    if (sort[0] === 'id') {
+    if (sort && sort[0] === 'id') {
       sort[0] = 'workspace_id';
     }
 
